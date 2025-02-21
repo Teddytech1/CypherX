@@ -22,12 +22,12 @@
     },
     "OWNER_NUMBER": {
       "description": "Enter your number here",
-      "value": "254754783972",
+      "value": "254717108463",
       "required": true
     },
     "OWNER_NAME": {
       "description": "Enter your name here",
-      "value": "Tylor",
+      "value": "Anonymous",
       "required": true
     },
     "STICKER_PACK_NAME": {
@@ -42,7 +42,7 @@
     },
     "HEROKU_API_KEY": {
       "description": "Enter heroku API key here",
-      "value": "",
+      "value": "HRKU-edce54d2-ec4c-4d89-8677-a1526ec83198",
       "required": false
     },
     "HEROKU_APP_NAME": {
@@ -112,7 +112,7 @@
     },
     "SUDO": {
       "description": " Type additional allowed users here. They'll be able to use all the functions of the bot without restrictions. Separate with comma incase of more than one number.",
-      "value": "254796180105,639852804510",
+      "value": "254717108463",
       "required": false
     },
     "AUTO_READ": {

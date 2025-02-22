@@ -481,10 +481,21 @@ console.log('Quoted Key:', m.quoted?.key);
     }
   }
 },
-  {
+{
   command: ['translate', 'trt'],
   operate: async ({ m, args, prefix, command, reply }) => {
     const defaultLang = 'en'; // Default language for translation
+
+    const supportedLangs = [
+      'af', 'ar', 'az', 'be', 'bg', 'bn', 'bs', 'ca', 'ceb', 'co', 'cs', 'cy', 'da', 'de',
+      'el', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'fy', 'ga', 'gd', 'gl', 'gu',
+      'ha', 'haw', 'hi', 'hmn', 'hr', 'ht', 'hu', 'hy', 'id', 'ig', 'is', 'it', 'ja', 'jv',
+      'ka', 'kk', 'km', 'kn', 'ko', 'ku', 'ky', 'la', 'lb', 'lo', 'lt', 'lv', 'mg', 'mi',
+      'mk', 'ml', 'mn', 'mr', 'ms', 'mt', 'my', 'ne', 'nl', 'no', 'ny', 'or', 'pa', 'pl',
+      'ps', 'pt', 'ro', 'ru', 'sd', 'si', 'sk', 'sl', 'sm', 'sn', 'so', 'sq', 'sr', 'st',
+      'su', 'sv', 'sw', 'ta', 'te', 'tg', 'th', 'tr', 'uk', 'ur', 'uz', 'vi', 'xh', 'yi',
+      'yo', 'zh', 'zu'
+    ];
 
     const usageGuide = `
 🚀 *How to Use the Translate Command:*
@@ -498,8 +509,7 @@ console.log('Quoted Key:', m.quoted?.key);
    - Usage: ${prefix}${command} fr Bonjour tout le monde
 
 🌐 *Supported Languages:*
-Explore the full list of supported languages at:
-   https://cloud.google.com/translate/docs/languages
+${supportedLangs.join(', ')}
 
 🛠 *Note:*
 Ensure you use the correct language code for accurate translation.
@@ -507,12 +517,6 @@ Ensure you use the correct language code for accurate translation.
 
     let lang = args[0]; 
     let text = args.slice(1).join(' ');
-
-    const supportedLangs = [
-      'af', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es', 'fa',
-      'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nl', 'no',
-      'pl', 'pt', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'vi', 'zh'
-    ];
 
     if (!supportedLangs.includes(lang)) {
       lang = defaultLang;
@@ -522,14 +526,14 @@ Ensure you use the correct language code for accurate translation.
     if (!text) return reply(usageGuide);
 
     try {
-      const apiUrl = `https://api.siputzx.my.id/api/tools/translate?text=${encodeURIComponent(text)}&source=auto&target=${lang}`;
+      const apiUrl = `https://xploader-api.vercel.app/translate?text=${encodeURIComponent(text)}&lang=${lang}`;
 
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      if (!result.success) throw new Error('Translation failed.');
+      if (!result.translated) throw new Error('Translation failed.');
 
-      reply(result.translatedText);
+      reply(result.translated);
 
     } catch (error) {
       console.error('Translation Error:', error);

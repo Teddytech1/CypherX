@@ -31,7 +31,7 @@ module.exports = [
       if (response.status !== 200 || !data.result || data.result.length === 0) {
         return reply("*Please try again later or try another command!*");
       } else {
-        reply(data.result[0]); // Extract the first message from the result array
+        reply(data.result[0]); 
       }
     } catch (error) {
       console.error('Error fetching response from Bard API:', error);
@@ -182,19 +182,19 @@ module.exports = [
   }
 },
 {
-  command: ['metaai'],
+  command: ['doppleai'],
   operate: async ({ reply, m, text }) => {
-    async function fetchGPTResponse(query) {
-      const response = await axios.get(`https://xploader-api.vercel.app/gpt-3.5?prompt=${encodeURIComponent(query)}`);
+    async function fetchDoppleAIResponse(query) {
+      const response = await axios.get(`https://xploader-api.vercel.app/doppleai?prompt=${encodeURIComponent(query)}`);
       return response.data;
     }
 
     try {
       if (!text) return reply('*Please ask a question*');
-      const result = await fetchGPTResponse(text);
-      reply(result.message);
+      const result = await fetchDoppleAIResponse(text);
+      reply(result.response);
     } catch (error) {
-      console.error('Error in GPT plugin:', error);
+      console.error('Error in DoppleAI plugin:', error);
       reply('An error occurred!');
     }
   }

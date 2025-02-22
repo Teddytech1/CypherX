@@ -79,24 +79,27 @@ module.exports = [
       }
     }
   },
-  {
-    command: ['lyrics'],
-    operate: async ({ m, text, Cypher, reply }) => {
-      if (!text) return reply("Provide a song name.");
-      
-      try {
-        const { data } = await axios.get(`https://api.vreden.web.id/api/lirik?lagu=${encodeURIComponent(text)}`);
-        if (!data.result) throw new Error();
+{
+  command: ['lyrics'],
+  operate: async ({ m, text, Cypher, reply }) => {
+    if (!text) return reply("Provide a song name.");
+    
+    try {
+      const apiUrl = `https://xploader-api.vercel.app/lyrics?query=${encodeURIComponent(text)}`;
+      const response = await fetch(apiUrl);
+      const result = await response.json();
 
-        Cypher.sendMessage(m.chat, {
-          image: { url: data.result.image },
-          caption: `🎵 *Lyrics for:* ${data.result.title} - ${data.result.artist}\n\n${data.result.lyrics}`
-        }, { quoted: m });
-      } catch (error) {
-        reply("❌ Unable to fetch lyrics.");
-      }
+      if (!result.length || !result[0].song || !result[0].artist || !result[0].lyrics) throw new Error();
+
+      Cypher.sendMessage(m.chat, {
+        text: `🎵 *Lyrics for:* ${result[0].song} - ${result[0].artist}\n\n${result[0].lyrics}`
+      }, { quoted: m });
+    } catch (error) {
+      console.error('❌ Unable to fetch lyrics:', error);
+      reply("❌ Unable to fetch lyrics.");
     }
-  },
+  }
+},
   {
     command: ['shazam', 'find', 'whatmusic'],
     operate: async ({ m, acr, reply }) => {
